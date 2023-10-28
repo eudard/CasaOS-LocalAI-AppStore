@@ -68,10 +68,6 @@ services:
         - container: /usr/src/app/weights
           description:
             en_us: ""
-    devices: []
-    cap_add: []
-    network_mode: bridge
-    privileged: false
     container_name: ""
     cpu_shares: 90
     deploy:
