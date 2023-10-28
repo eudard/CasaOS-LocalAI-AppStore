@@ -83,7 +83,7 @@ x-casaos:
     - amd64
     - arm
     - arm64
-  main: app
+  main: localai-serge
   description:
     en_us: 'Custom Local AI instances'
   tagline:
@@ -96,4 +96,3 @@ x-casaos:
     en_us: Serge
   category: LocalAI
   port_map: "8008"
-  index: /
