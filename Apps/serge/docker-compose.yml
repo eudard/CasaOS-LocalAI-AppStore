@@ -1,4 +1,4 @@
-name: serge
+name: localai-serge
 services:
   serge:
     command:
