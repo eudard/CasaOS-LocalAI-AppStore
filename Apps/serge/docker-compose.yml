@@ -73,7 +73,7 @@ x-casaos:
   architectures:
     - amd64
     - arm
-  main: localai-serge
+  main: serge
   description:
     en_us: 'Custom Local AI instances'
   tagline:
