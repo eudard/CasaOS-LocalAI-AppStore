@@ -85,23 +85,18 @@ services:
 x-casaos:
   architectures:
     - amd64
-  author: eudard
-  category: AI
-  description:
-    en_us: "Custom Local AI instances"
-  developer: eudard
-  icon: https://raw.githubusercontent.com/eudard/CasaOS-LocalAI-AppStore/master/Apps/serge/icon_bg.png
+    - arm
+    - arm64
   main: app
-  port_map: "8008"
+  description:
+    en_us: 'Custom Local AI instances'
   tagline:
-    en_us: This is a compose app converted from a legacy app (CasaOS v0.4.3 or
-      earlier)
+    en_us: 'LLama on your local network'
+  developer: ''
+  author: eudard
+  icon: https://raw.githubusercontent.com/eudard/CasaOS-LocalAI-AppStore/master/Apps/serge/icon_bg.png
   thumbnail: https://raw.githubusercontent.com/eudard/CasaOS-LocalAI-AppStore/master/Apps/serge/screenshot-1.png
-  tips:
-    custom: This is a compose app converted from a legacy app (CasaOS v0.4.3 or
-      earlier)
   title:
-    en_us: serge
-    custom: ""
-  hostname: ""
-  index: /
+    en_us: Serge
+  category: LocalAI
+  port_map: "8008"
