@@ -25,7 +25,7 @@ This custom appstore for CasaOS contains some additional configurations of docke
 ### 💎 CasaOS LocalAI Appstore URL
 
 ```bash
-https://github.com/mr-manuel/CasaOS-LocalAI-AppStore/archive/refs/tags/latest.zip
+https://github.com/eudard/CasaOS-LocalAI-AppStore/archive/refs/tags/latest.zip
 ```
 
 ## ✅ Installation
