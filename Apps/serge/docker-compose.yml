@@ -23,12 +23,8 @@ services:
         protocol: tcp
     restart: unless-stopped
     volumes:
-      - type: bind
-        source: /home/jelus/serge/data/db
-        target: /data/db
-      - type: bind
-        source: /home/jelus/serge/data/weights
-        target: /usr/src/app/weights
+      - /DATA/AppData/$AppID/db:/data/db
+      - /DATA/AppData/$AppID/weights:/usr/src/app/weights
     x-casaos:
       envs:
         - container: PATH
@@ -100,3 +96,4 @@ x-casaos:
     en_us: Serge
   category: LocalAI
   port_map: "8008"
+  index: /
