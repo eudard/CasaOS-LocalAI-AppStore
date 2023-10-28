@@ -2,7 +2,7 @@
 
 # CasaOS LocalAI AppStore
 
-A CasaOS custom Appstore containing some images to run some LLM like LLama to run on your own local server.
+A CasaOS custom Appstore containing some images to run some LLM like LLama to run on your local server.
 
 ## Supporting/Sponsoring this project
 
