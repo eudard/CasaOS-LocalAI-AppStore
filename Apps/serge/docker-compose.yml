@@ -1,6 +1,6 @@
 name: localai-serge
 services:
-  serge:
+  app:
     command:
       - /bin/bash
       - -c
@@ -68,12 +68,21 @@ services:
         - container: /usr/src/app/weights
           description:
             en_us: ""
+    devices: []
+    cap_add: []
+    network_mode: bridge
+    privileged: false
     container_name: ""
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 15873M
 x-casaos:
   architectures:
     - amd64
     - arm
-  main: serge
+  main: app
   description:
     en_us: 'Custom Local AI instances'
   tagline:
