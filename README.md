@@ -39,7 +39,7 @@ https://github.com/eudard/CasaOS-LocalAI-AppStore/archive/refs/tags/latest.zip
 - Paste the appstore link
 
   ```
-  https://github.com/eudard/CasaOS-LocalAI-AppStore/archive/refs/tags/latest.zip
+  https://github.com/eudard/CasaOS-LocalAI-AppStore/archive/refs/heads/master.zip
   ```
 
   and then click `Add` to submit.
