@@ -69,11 +69,6 @@ services:
           description:
             en_us: ""
     container_name: ""
-    cpu_shares: 90
-    deploy:
-      resources:
-        limits:
-          memory: 15873M
 x-casaos:
   architectures:
     - amd64
