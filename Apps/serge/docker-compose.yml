@@ -85,20 +85,18 @@ services:
 x-casaos:
   architectures:
     - amd64
-  author: CasaOS User
-  category: unknown
+  author: eudard
+  category: AI
   description:
-    en_us: ""
-  developer: unknown
-  icon: ""
-  main: serge
+    en_us: "Custom Local AI instances"
+  developer: eudard
+  icon: https://raw.githubusercontent.com/eudard/CasaOS-LocalAI-AppStore/master/Apps/serge/icon_bg.png
+  main: app
   port_map: "8008"
-  scheme: http
-  store_app_id: serge
   tagline:
     en_us: This is a compose app converted from a legacy app (CasaOS v0.4.3 or
       earlier)
-  thumbnail: ""
+  thumbnail: https://raw.githubusercontent.com/eudard/CasaOS-LocalAI-AppStore/master/Apps/serge/screenshot-1.png
   tips:
     custom: This is a compose app converted from a legacy app (CasaOS v0.4.3 or
       earlier)
