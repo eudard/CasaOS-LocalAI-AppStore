@@ -1,0 +1,42 @@
+##https://chat.openai.com/share/1ba40327-8037-42d4-a089-7ca9823ac263
+name: elasticsearch
+services:
+  app:
+    environment:
+      - discovery.type=single-node
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    restart: unless-stopped
+    volumes:
+      - /DATA/AppData/$AppID/data:/usr/share/elasticsearch/data
+    x-casaos:
+      ports:
+        - container: "9200"
+          description:
+            en_us: ""
+        - container: "9300"
+          description:
+            en_us: ""
+      volumes:
+        - container: /usr/share/elasticsearch/data
+          description:
+            en_us: ""
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+  main: app
+  description:
+    en_us: "Elastic search"
+  tagline:
+    en_us: "Elastic search"
+  developer: ""
+  author: eudard
+  icon: ""
+  thumbnail: ""
+  title:
+    en_us: ElasticSearch
+  category: ElasticSearch
+  port_map: "9200"
