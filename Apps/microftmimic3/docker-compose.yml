@@ -27,7 +27,7 @@ x-casaos:
     en_us: "Mimic 3 TTS"
   developer: "Mycroft AI"
   author: "eudard"
-  icon: "https://raw.githubusercontent.com/eudard/CasaOS-LocalAI-AppStore/master/Apps/microftmimic/icon_bg.png"
+  icon: "https://raw.githubusercontent.com/eudard/CasaOS-LocalAI-AppStore/latest/Apps/microftmimic3/icon.png"
   thumbnail: ""
   title:
     en_us: "Mimic 3"
