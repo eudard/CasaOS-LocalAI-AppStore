@@ -1,0 +1,35 @@
+version: '3'
+services:
+  mimic3:
+    image: mycroftai/mimic3
+    ports:
+      - "59125:59125"
+    volumes:
+      - /DATA/AppData/$AppID/mimic3:/home/mimic3/.local/share/mycroft/mimic3
+    restart: unless-stopped
+    x-casaos:
+      ports:
+        - container: "59125"
+          description:
+            en_us: "Mimic 3 server port"
+      volumes:
+        - container: /home/mimic3/.local/share/mycroft/mimic3
+          description:
+            en_us: "Mimic 3 data directory"
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+  main: mimic3
+  description:
+    en_us: "Mycroft AI's Mimic 3 Text-to-Speech engine - https://mycroft-ai.gitbook.io/docs/mycroft-technologies/mimic-tts/mimic-3"
+  tagline:
+    en_us: "Mimic 3 TTS"
+  developer: "Mycroft AI"
+  author: "eudard"
+  icon: "https://raw.githubusercontent.com/eudard/CasaOS-LocalAI-AppStore/master/Apps/microftmimic/icon_bg.png"
+  thumbnail: ""
+  title:
+    en_us: "Mimic 3"
+  category: "SelfhostAI"
+  port_map: "59125"
