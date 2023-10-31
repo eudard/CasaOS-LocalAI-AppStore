@@ -1,0 +1,26 @@
+version: "3"
+services:
+  elastichq:
+    image: elastichq/elasticsearch-hq
+    ports:
+      - "5000:5000"
+    environment:
+      - HQ_DEFAULT_URL=http://...:9200 # Zde použijte název služby Elasticsearch kontejneru
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+  main: elastichq
+  description:
+    en_us: "Elastic HQ"
+  tagline:
+    en_us: "Elastic HQ"
+  developer: ""
+  author: eudard
+  icon: ""
+  thumbnail: ""
+  title:
+    en_us: ElasticSearchHQ
+  category: ElasticSearch
+  port_map: "5000"
