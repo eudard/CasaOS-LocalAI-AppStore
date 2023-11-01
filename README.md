@@ -24,6 +24,19 @@ Elasticsearch is a distributed, RESTful search and analytics engine capable of s
 
 ElasticHQ is a simple, lightweight, free application that allows you to monitor and manage your ElasticSearch clusters with ease. Works with 2.x, 5.x, 6.x, 7.x and current versions of Elasticsearch. Monitor many clusters at once. Monitor Nodes, Indices, Shards, and general cluster metrics. Create and maintain Elasticsearch Indices. One-Click access to ES API and cat API endpoints. Easy-to-Use Querying capabilities. Copy mappings and reindex Indices. Real-time monitoring charts of important metrics. Diagnostics check-up helps alert to specific nodes having issues. Active project used by Fortune 100 companies around the world.
 
+### **5. [Kopia](https://kopia.io/)** (version: latest)
+
+Kopia is a simple, cross-platform tool for managing encrypted backups in the cloud. It provides fast, incremental backups, secure, client-side end-to-end encryption, data deduplication, and compression. Kopia is written in Go and released under the Apache 2.0 license.
+
+### **6. [OpenTTS](https://github.com/synesthesiam/opentts)** (version: 2.1)
+
+OpenTTS is a collection of open source speech synthesis systems, including:
+Larynx, Glow-Speak, Coqui-TTS, nanoTTS, MaryTTS, flite, Festival and eSpeak voices. It is very large and takes a longer time to install based on your internet speed.
+
+### **7. [OpenSpeedTest](https://hub.docker.com/r/openspeedtest/latest)** (version: latest)
+
+SpeedTest by OpenSpeedTest™ is a Free and Open-Source HTML5 Network Performance Estimation Tool Written in Vanilla Javascript and only uses built-in Web APIs like XMLHttpRequest (XHR), HTML, CSS, JS, & SVG. No Third-Party frameworks or libraries are Required. All we need is a static web server like NGINX. I started this project in 2011 and moved to OpenSpeedTest.com dedicated Project/Domain Name in 2013.
+
 ## ✅ Installation
 
 - Go to your CasaOS dashboard.
