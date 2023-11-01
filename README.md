@@ -39,6 +39,8 @@ SpeedTest by OpenSpeedTest™ is a Free and Open-Source HTML5 Network Performanc
 
 ## ✅ Installation
 
+**Custom appstore method**
+
 - Go to your CasaOS dashboard.
 
 - Open the appstore and click `Add Source` button located on the right just above the apps list.
@@ -54,6 +56,10 @@ https://github.com/eudard/CasaOS-LocalAI-AppStore/archive/refs/tags/latest.zip
 - Then click `Add` to submit and Wait for the installation to finish. Done!
 
 > **NOTE: Custom Appstore is only supported on CasaOS version [0.4.4](https://blog.casaos.io/blog/32.html) and above. **
+
+**Manual install**
+
+Another method is simply download desired app docker-compose.yml file and upload it to your CasaOS dashboard by open `App Store` and click to `Custom Install` button located on the top right.
 
 ## Supporting/Sponsoring this project
 
