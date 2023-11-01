@@ -1,0 +1,1 @@
+git tag -d latest && git tag -a latest -m "Latest release" && git push --delete origin latest && git push origin latest
