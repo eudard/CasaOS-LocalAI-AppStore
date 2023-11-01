@@ -1,0 +1,35 @@
+version: '3'
+services:
+  opentts:
+    image: synesthesiam/opentts
+    ports:
+      - "5500:5500"
+    restart: unless-stopped
+    volumes:
+      - /DATA/AppData/$AppID/models:/app/models
+    x-casaos:
+      ports:
+        - container: "5500"
+          description:
+            en_us: "OpenTTS server port"
+      volumes:
+        - container: /app/models
+          description:
+            en_us: "Directory for TTS models"
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: opentts
+  description:
+    en_us: "Open source Text-to-Speech server"
+  tagline:
+    en_us: "OpenTTS"
+  developer: "synesthesiam"
+  author: "eudard"
+  icon: ""
+  thumbnail: ""
+  title:
+    en_us: "OpenTTS"
+  category: "SelfhostAI"
+  port_map: "5500"
