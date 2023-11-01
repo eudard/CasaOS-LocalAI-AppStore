@@ -1,0 +1,68 @@
+version: '3.7'
+services:
+  kopia:
+    image: kopia/kopia:latest
+    #hostname: Hostname
+    container_name: Kopia
+    restart: unless-stopped
+    ports:
+      - "51515:51515"
+    command:
+      - server
+      - start
+      - --disable-csrf-token-checks
+      - --insecure
+      - --address=0.0.0.0:51515
+      - --server-username=admin
+      - --server-password=admin
+    environment:
+      KOPIA_PASSWORD: "admin"
+      USER: "admin"
+    volumes:
+      - /DATA/AppData/$AppID/config:/app/config
+      - //DATA/AppData/$AppID/cache:/app/cache
+      - /DATA/AppData/$AppID/logs:/app/logs
+      - /DATA/AppData/$AppID/data:/data:ro
+      - /DATA/AppData/$AppID/repository:/repository
+      - /DATA/AppData/$AppID/tmp:/tmp:shared
+    x-casaos:
+      ports:
+        - container: "51515"
+          description:
+            en_us: "Kopia server port"
+      volumes:
+        - container: /app/config
+          description:
+            en_us: "Configuration directory for Kopia"
+        - container: /app/cache
+          description:
+            en_us: "Cache directory for Kopia"
+        - container: /app/logs
+          description:
+            en_us: "Logs directory for Kopia"
+        - container: /data
+          description:
+            en_us: "Directory for data to snapshot (read-only)"
+        - container: /repository
+          description:
+            en_us: "Repository location for Kopia"
+        - container: /tmp
+          description:
+            en_us: "Directory for browsing mounted snapshots"
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: kopia
+  description:
+    en_us: "Kopia - Efficient and Secure Backup Software - https://kopia.io/"
+  tagline:
+    en_us: "Kopia"
+  developer: "Kopia"
+  author: "eudard"
+  icon: ""
+  thumbnail: ""
+  title:
+    en_us: "Kopia Backup"
+  category: "Backup & Storage"
+  port_map: "51515"
