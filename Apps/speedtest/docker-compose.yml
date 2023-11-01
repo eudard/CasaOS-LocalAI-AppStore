@@ -31,5 +31,6 @@ x-casaos:
   title:
     en_us: "OpenSpeedTest"
   category: "Network Tools"
-  port_map: "3006, 3007"
+  port_map: "3006"
+
 # V případě potřeby můžete přidat definice dalších sítí nebo konfigurací.
