@@ -1,0 +1,74 @@
+name: directus
+services:
+  app:
+    image: directus/directus:latest
+    container_name: directus
+    restart: unless-stopped
+    environment:
+      - KEY=replace-with-random-value"
+      - SECRET=replace-with-random-value"
+      - ADMIN_EMAIL=admin@example.com
+      - ADMIN_PASSWORD=password
+      - DB_CLIENT=sqlite3
+      - DB_FILENAME=/directus/database/data.db
+      - WEBSOCKETS_ENABLED=true
+    ports:
+      - target: "8055"
+        published: "8055"
+        protocol: tcp
+    volumes:
+      - /DATA/AppData/directus/database:/directus/database
+      - /DATA/AppData/directus/uploads:/directus/uploads
+    x-casaos:
+      envs:
+        - container: KEY
+          description:
+            en_us: A random value for security purposes.
+        - container: SECRET
+          description:
+            en_us: Another random value for security purposes.
+        - container: ADMIN_EMAIL
+          description:
+            en_us: The admin email for Directus access.
+        - container: ADMIN_PASSWORD
+          description:
+            en_us: The admin password for Directus access.
+        - container: DB_CLIENT
+          description:
+            en_us: The database client, in this case, sqlite3.
+        - container: DB_FILENAME
+          description:
+            en_us: The path to the database file.
+        - container: WEBSOCKETS_ENABLED
+          description:
+            en_us: Enable or disable websockets.
+      volumes:
+        - container: /directus/database
+          description:
+            en_us: The directory for Directus database files.
+        - container: /directus/uploads
+          description:
+            en_us: The directory for Directus uploaded files.
+      ports:
+        - container: '8055'
+          description:
+            en_us: The port for Directus web interface.
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+  main: app
+  description:
+    en_us: 'Directus is an open-source software platform designed to manage content and distribute it across all digital devices. It provides a flexible and dynamic API for developers, allowing for seamless integration with any SQL database. Directus is particularly noted for its "headless" architecture, meaning it decouples the content management from the front-end presentation layer, which is ideal for designing content-driven applications. The platform features a robust and intuitive admin interface that empowers users to create, manage, and distribute rich content without needing technical expertise. With its modular design, Directus ensures that users can tailor the system to their specific needs, making it a versatile choice for content management across various applications and use cases.'
+  tagline:
+    en_us: Headless CMS for managing content.
+  developer: Directus
+  author: eudard
+  icon: https://raw.githubusercontent.com/eudard/CasaOS-LocalAI-AppStore/master/Apps/directus/icon.png
+  thumbnail: ''
+  title:
+    en_us: Directus
+  category: Content Management
+  project_url: https://directus.io/
+  port_map: '8055'
