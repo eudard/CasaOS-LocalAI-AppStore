@@ -1,0 +1,53 @@
+name: postgres
+version: "3.9"
+services:
+  db:
+    image: postgres
+    container_name: Metabase-DB
+    hostname: metabase-db
+    mem_limit: 512m
+    cpu_shares: 768
+    security_opt:
+      - no-new-privileges:true
+    #user: '<YOUR_UID>:<YOUR_GID>' # Replace with your user and group ID
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "metabase", "-U", "metabaseuser"]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    volumes:
+      - /DATA/AppData/$AppID/db:/var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_DB: metabase
+      POSTGRES_USER: metabaseuser
+      POSTGRES_PASSWORD: metabasepass
+    restart: on-failure:5
+    x-casaos:
+      envs:
+        - container: POSTGRES_DB
+          description:
+            en_us: "The name of the database to create"
+        - container: POSTGRES_USER
+          description:
+            en_us: "The username to create"
+        - container: POSTGRES_PASSWORD
+          description:
+            en_us: "The password for the user"
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm
+  main: db
+  description:
+    en_us: "PostgreSQL is a powerful, open source object-relational database system with over 30 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance."
+  tagline:
+    en_us: "The World's Most Advanced Open Source Relational Database"
+  developer: "PostgreSQL Global Development Group"
+  author: eudard
+  icon: ""
+  thumbnail: ""
+  title:
+    en_us: "PostgreSQL"
+  category: "Database"
+  port_map: "5432"
