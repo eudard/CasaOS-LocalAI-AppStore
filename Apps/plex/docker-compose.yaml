@@ -11,7 +11,7 @@ services:
     environment:
       - PGID=1000
       - PUID=1000
-      - TZ=Europe/Bucharest
+      - TZ=Europe/Prague
       - VERSION=docker
     image: ghcr.io/linuxserver/plex
     restart: always

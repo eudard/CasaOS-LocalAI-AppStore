@@ -37,6 +37,10 @@ Larynx, Glow-Speak, Coqui-TTS, nanoTTS, MaryTTS, flite, Festival and eSpeak voic
 
 SpeedTest by OpenSpeedTest™ is a Free and Open-Source HTML5 Network Performance Estimation Tool Written in Vanilla Javascript and only uses built-in Web APIs like XMLHttpRequest (XHR), HTML, CSS, JS, & SVG. No Third-Party frameworks or libraries are Required. All we need is a static web server like NGINX. I started this project in 2011 and moved to OpenSpeedTest.com dedicated Project/Domain Name in 2013.
 
+### **8. [Plex](https://www.plex.tv/)** (version: latest)
+
+Plex is a client-server media player system plus an ancillary software suite. The Plex Media Server desktop application runs on Windows, macOS, and Linux. The server desktop application organizes video, audio, and photos from a user's collections and from online services, enabling the players to access and stream the contents. There are official clients available for mobile devices, smart TVs, and streaming boxes, a web app, and Plex Home Theater (no longer maintained), as well as many third-party alternatives.
+
 ## ✅ Installation
 
 **Custom appstore method**
