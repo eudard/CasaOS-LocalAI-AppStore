@@ -1,0 +1,40 @@
+name: imaginative_samuel
+services:
+  linuxserver:
+    cpu_shares: 90
+    command: []
+    container_name: plex
+    deploy:
+      resources:
+        limits:
+          memory: 15869M
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=Europe/Bucharest
+      - VERSION=docker
+    image: ghcr.io/linuxserver/plex
+    restart: always
+    volumes:
+      - type: bind
+        source: /DATA/AppData//config
+        target: /config
+      - type: bind
+        source: /DATA/Media/Movies
+        target: /movies
+    ports: []
+    devices: []
+    cap_add: []
+    network_mode: host
+    privileged: false
+x-casaos:
+  author: self
+  category: self
+  hostname: ""
+  icon: "https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/plex-icon.png"
+  index: /web
+  port_map: "32400"
+  scheme: http
+  store_app_id: imaginative_samuel
+  title:
+    custom: Plex
