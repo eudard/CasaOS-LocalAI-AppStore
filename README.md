@@ -41,6 +41,10 @@ SpeedTest by OpenSpeedTest™ is a Free and Open-Source HTML5 Network Performanc
 
 Plex is a client-server media player system plus an ancillary software suite. The Plex Media Server desktop application runs on Windows, macOS, and Linux. The server desktop application organizes video, audio, and photos from a user's collections and from online services, enabling the players to access and stream the contents. There are official clients available for mobile devices, smart TVs, and streaming boxes, a web app, and Plex Home Theater (no longer maintained), as well as many third-party alternatives.
 
+### **9. [RSS Bridge](https://github.com/RSS-Bridge/rss-bridge)** (version: latest)
+
+RSS-Bridge is a PHP project capable of generating RSS and Atom feeds for websites that don't have one. It can be used on webservers or as a stand-alone application in CLI mode. RSS-Bridge is easy to install and use, and it is compatible with a lot of websites. It is a great tool for people who want to follow a lot of websites and don't want to miss any news.
+
 ## ✅ Installation
 
 **Custom appstore method**
