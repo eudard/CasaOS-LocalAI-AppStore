@@ -1,0 +1,28 @@
+name: rss-bridge
+services:
+  rss-bridge:
+    image: rssbridge/rss-bridge:latest
+    ports:
+      - target: 80
+        published: "3000"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/rssbridge/config
+        target: /config
+    devices: []
+    cap_add: []
+    environment: []
+    network_mode: bridge
+    privileged: false
+    container_name: ""
+x-casaos:
+  author: RSS Bridge
+  category: "News"
+  icon: https://avatars.githubusercontent.com/u/20958263?s=280&v=4
+  index: /
+  port_map: "3000"
+  scheme: http
+  title:
+    custom: RSS Bridge
