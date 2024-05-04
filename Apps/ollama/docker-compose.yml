@@ -1,4 +1,4 @@
-name: ollama
+version: '3'
 services:
   ollama:
     image: ollama/ollama:latest
