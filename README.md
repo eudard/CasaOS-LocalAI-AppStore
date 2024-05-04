@@ -45,6 +45,10 @@ Plex is a client-server media player system plus an ancillary software suite. Th
 
 RSS-Bridge is a PHP project capable of generating RSS and Atom feeds for websites that don't have one. It can be used on webservers or as a stand-alone application in CLI mode. RSS-Bridge is easy to install and use, and it is compatible with a lot of websites. It is a great tool for people who want to follow a lot of websites and don't want to miss any news.
 
+### **10. [OLLAMA](https://ollama.com/)** (version: latest)
+
+OLLAMA is a free, open-source, and easy-to-use AI-powered chatbot that can be used to create conversational AI applications. It is built on top of the OpenAI GPT-3 model and can be used to create chatbots for a wide range of applications, including customer service, marketing, and education. OLLAMA is designed to be easy to use and requires no coding or technical expertise to get started. It is available as a web-based application and can be accessed from any device with an internet connection.
+
 ## ✅ Installation
 
 **Custom appstore method**
