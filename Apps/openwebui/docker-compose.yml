@@ -14,11 +14,20 @@ services:
     volumes:
       - /AppData/OpenWebUi:/app/backend/data
 x-casaos:
-  author: OpenWebUI
-  category: LocalAi
-  icon: https://avatars.githubusercontent.com/u/158137808?s=280&v=4
-  port_map: "30000"
-  scheme: http
-  store_app_id: openwebui
+  architectures:
+    - amd64
+    - arm64
+  main: open-webui
+  description:
+    en_us: "Open source web interface for local AI services"
+  tagline:
+    en_us: "OpenWebUI"
+  developer: "OpenWebUI"
+  author: "eudard"
+  icon: "https://avatars.githubusercontent.com/u/158137808?s=280&v=4"
+  thumbnail: "https://github.com/open-webui/open-webui/raw/main/demo.gif"
   title:
-    custom: OpenWebUI
+    en_us: "OpenWebUI"
+  category: "SelfhostAI"
+  port_map: "30000"
+  
