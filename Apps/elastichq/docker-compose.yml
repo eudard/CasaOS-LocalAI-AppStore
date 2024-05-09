@@ -22,5 +22,5 @@ x-casaos:
   thumbnail: ""
   title:
     en_us: ElasticSearchHQ
-  category: ElasticSearch
+  category: "SelfhostAI"
   port_map: "5000"

@@ -83,5 +83,5 @@ x-casaos:
   thumbnail: https://raw.githubusercontent.com/eudard/CasaOS-LocalAI-AppStore/master/Apps/serge/screenshot-1.png
   title:
     en_us: Serge
-  category: LocalAiStore
+  category: "SelfhostAI"
   port_map: "8008"

@@ -69,6 +69,6 @@ x-casaos:
   thumbnail: ''
   title:
     en_us: Directus
-  category: Content Management
+  category: "SelfhostAI"
   project_url: https://directus.io/
   port_map: '8055'

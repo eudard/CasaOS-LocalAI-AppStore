@@ -38,5 +38,5 @@ x-casaos:
   thumbnail: ""
   title:
     en_us: ElasticSearch
-  category: ElasticSearch
+  category: "SelfhostAI"
   port_map: "9200"
