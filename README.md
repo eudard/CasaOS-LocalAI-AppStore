@@ -53,6 +53,10 @@ OLLAMA is a free, open-source, and easy-to-use AI-powered chatbot that can be us
 
 Open WebUI is an extensible, feature-rich, and user-friendly self-hosted WebUI designed to operate entirely offline. It supports various LLM runners, including Ollama and OpenAI-compatible APIs. Clear and simple interface, with lot of features and settings. It is a great tool for people who want to create and manage conversational AI applications and also custom chatbot models.
 
+### **12. [MeiliSearch](https://www.meilisearch.com/)** (version: latest)
+
+MeiliSearch is a powerful, fast, open-source, easy to use, and deploy search engine. Both searching and indexing are highly customizable. Features such as typo-tolerance, filters, and synonyms are provided out-of-the-box. For more advanced customization, the engine can be configured to fit your specific needs. MeiliSearch is designed to be easy to use and deploy, and it is available as a self-hosted solution or as a managed service.
+
 ## ✅ Installation
 
 **Custom appstore method**
