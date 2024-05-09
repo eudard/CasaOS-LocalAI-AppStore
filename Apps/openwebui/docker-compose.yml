@@ -1,0 +1,24 @@
+name: openwebui
+services:
+  open-webui:
+    container_name: open-webui
+    environment:
+      - OLLAMA_BASE_URL=http://localhost:11434
+    hostname: open-webui
+    image: ghcr.io/open-webui/open-webui:latest
+    labels:
+      icon: https://avatars.githubusercontent.com/u/158137808?s=280&v=4
+    ports:
+      - 30000:8080
+    restart: always
+    volumes:
+      - /AppData/OpenWebUi:/app/backend/data
+x-casaos:
+  author: OpenWebUI
+  category: LocalAi
+  icon: https://avatars.githubusercontent.com/u/158137808?s=280&v=4
+  port_map: "30000"
+  scheme: http
+  store_app_id: openwebui
+  title:
+    custom: OpenWebUI
