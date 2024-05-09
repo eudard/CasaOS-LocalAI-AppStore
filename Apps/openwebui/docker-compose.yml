@@ -1,14 +1,13 @@
 version: '3'
 services:
-  open-webui:
+  openwebui:
     environment:
       - OLLAMA_BASE_URL=http://localhost:11434
-    hostname: open-webui
     image: ghcr.io/open-webui/open-webui:latest
     labels:
       icon: https://avatars.githubusercontent.com/u/158137808?s=280&v=4
     ports:
-      - 30000:8080
+      - "30000:8080"
     restart: always
     volumes:
       - /AppData/OpenWebUi:/app/backend/data
@@ -16,7 +15,7 @@ x-casaos:
   architectures:
     - amd64
     - arm64
-  main: open-webui
+  main: openwebui
   description:
     en_us: "Open source web interface for local AI services"
   tagline:
@@ -29,4 +28,3 @@ x-casaos:
     en_us: "OpenWebUI"
   category: "SelfhostAI"
   port_map: "30000"
-  
