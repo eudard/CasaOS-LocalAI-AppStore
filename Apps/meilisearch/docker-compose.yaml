@@ -8,12 +8,16 @@ services:
     volumes:
       - /AppData/Meilisearch/data:/meili_data
 x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: meilisearch
   author: "eudard"
   developer: "meilisearch"
   category: "SelfhostAI"
   icon: "https://avatars.githubusercontent.com/u/43250847?s=280&v=4"
   port_map: "7755"
   title:
-    custom: "MeiliSearch"
+    en_us: "MeiliSearch"
   description:
     en_us: "A lightning-fast and hyper-relevant search engine that fits effortlessly into your workflow."
