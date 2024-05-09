@@ -1,0 +1,613 @@
+name: supabase
+services:
+  analytics:
+    container_name: supabase-analytics
+    depends_on:
+      db:
+        condition: service_healthy
+        required: true
+    environment:
+      - DB_DATABASE=postgres
+      - DB_HOSTNAME=db
+      - DB_PASSWORD=your-super-secret-and-long-postgres-password
+      - DB_PORT=5432
+      - DB_SCHEMA=_analytics
+      - DB_USERNAME=supabase_admin
+      - LOGFLARE_API_KEY=your-super-secret-and-long-logflare-key
+      - LOGFLARE_FEATURE_FLAG_OVERRIDE=multibackend=true
+      - LOGFLARE_NODE_HOST=127.0.0.1
+      - LOGFLARE_SINGLE_TENANT=true
+      - LOGFLARE_SUPABASE_MODE=true
+      - POSTGRES_BACKEND_SCHEMA=_analytics
+      - POSTGRES_BACKEND_URL=postgresql://supabase_admin:your-super-secret-and-long-postgres-password@db:5432/postgres
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - http://localhost:4000/health
+      timeout: 5s
+      interval: 5s
+      retries: 10
+    image: supabase/logflare:1.4.0
+    ports:
+      - mode: ingress
+        target: 4000
+        published: "4000"
+        protocol: tcp
+    restart: unless-stopped
+    volumes: []
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+    privileged: false
+    hostname: supabase-analytics
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 15868M
+  auth:
+    container_name: supabase-auth
+    depends_on:
+      analytics:
+        condition: service_healthy
+        required: true
+      db:
+        condition: service_healthy
+        required: true
+    environment:
+      - API_EXTERNAL_URL=http://localhost:8000
+      - GOTRUE_API_HOST=0.0.0.0
+      - GOTRUE_API_PORT=9999
+      - GOTRUE_DB_DATABASE_URL=postgres://supabase_auth_admin:your-super-secret-and-long-postgres-password@db:5432/postgres
+      - GOTRUE_DB_DRIVER=postgres
+      - GOTRUE_DISABLE_SIGNUP=false
+      - GOTRUE_EXTERNAL_EMAIL_ENABLED=true
+      - GOTRUE_EXTERNAL_PHONE_ENABLED=true
+      - GOTRUE_JWT_ADMIN_ROLES=service_role
+      - GOTRUE_JWT_AUD=authenticated
+      - GOTRUE_JWT_DEFAULT_GROUP_NAME=authenticated
+      - GOTRUE_JWT_EXP=3600
+      - GOTRUE_JWT_SECRET=your-super-secret-jwt-token-with-at-least-32-characters-long
+      - GOTRUE_MAILER_AUTOCONFIRM=false
+      - GOTRUE_MAILER_URLPATHS_CONFIRMATION=/auth/v1/verify
+      - GOTRUE_MAILER_URLPATHS_EMAIL_CHANGE=/auth/v1/verify
+      - GOTRUE_MAILER_URLPATHS_INVITE=/auth/v1/verify
+      - GOTRUE_MAILER_URLPATHS_RECOVERY=/auth/v1/verify
+      - GOTRUE_SITE_URL=http://localhost:3000
+      - GOTRUE_SMS_AUTOCONFIRM=true
+      - GOTRUE_SMTP_ADMIN_EMAIL=admin@example.com
+      - GOTRUE_SMTP_HOST=supabase-mail
+      - GOTRUE_SMTP_PASS=fake_mail_password
+      - GOTRUE_SMTP_PORT=2500
+      - GOTRUE_SMTP_SENDER_NAME=fake_sender
+      - GOTRUE_SMTP_USER=fake_mail_user
+      - GOTRUE_URI_ALLOW_LIST=
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - --no-verbose
+        - --tries=1
+        - --spider
+        - http://localhost:9999/health
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    image: supabase/gotrue:v2.143.0
+    restart: unless-stopped
+    ports: []
+    volumes: []
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+    privileged: false
+    hostname: supabase-auth
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 15868M
+  db:
+    command:
+      - postgres
+      - -c
+      - config_file=/etc/postgresql/postgresql.conf
+      - -c
+      - log_min_messages=fatal
+    container_name: supabase-db
+    depends_on:
+      vector:
+        condition: service_healthy
+        required: true
+    environment:
+      - JWT_EXP=3600
+      - JWT_SECRET=your-super-secret-jwt-token-with-at-least-32-characters-long
+      - PGDATABASE=postgres
+      - PGPASSWORD=your-super-secret-and-long-postgres-password
+      - PGPORT=5432
+      - POSTGRES_DB=postgres
+      - POSTGRES_HOST=/var/run/postgresql
+      - POSTGRES_PASSWORD=your-super-secret-and-long-postgres-password
+      - POSTGRES_PORT=5432
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U postgres -h localhost
+      timeout: 5s
+      interval: 5s
+      retries: 10
+    image: supabase/postgres:15.1.0.147
+    ports:
+      - mode: ingress
+        target: 5432
+        published: "5432"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /root/supabase/docker/volumes/db/realtime.sql
+        target: /docker-entrypoint-initdb.d/migrations/99-realtime.sql
+        bind:
+          selinux: Z
+          create_host_path: true
+      - type: bind
+        source: /root/supabase/docker/volumes/db/webhooks.sql
+        target: /docker-entrypoint-initdb.d/init-scripts/98-webhooks.sql
+        bind:
+          selinux: Z
+          create_host_path: true
+      - type: bind
+        source: /root/supabase/docker/volumes/db/roles.sql
+        target: /docker-entrypoint-initdb.d/init-scripts/99-roles.sql
+        bind:
+          selinux: Z
+          create_host_path: true
+      - type: bind
+        source: /root/supabase/docker/volumes/db/jwt.sql
+        target: /docker-entrypoint-initdb.d/init-scripts/99-jwt.sql
+        bind:
+          selinux: Z
+          create_host_path: true
+      - type: bind
+        source: /root/supabase/docker/volumes/db/data
+        target: /var/lib/postgresql/data
+        bind:
+          selinux: Z
+          create_host_path: true
+      - type: bind
+        source: /root/supabase/docker/volumes/db/logs.sql
+        target: /docker-entrypoint-initdb.d/migrations/99-logs.sql
+        bind:
+          selinux: Z
+          create_host_path: true
+      - type: volume
+        source: "[object Object]"
+        target: /etc/postgresql-custom
+        volume: {}
+    devices: []
+    cap_add: []
+    networks:
+      - default
+    privileged: false
+    hostname: supabase-db
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 15868M
+  functions:
+    command:
+      - start
+      - --main-service
+      - /home/deno/functions/main
+    container_name: supabase-edge-functions
+    depends_on:
+      analytics:
+        condition: service_healthy
+        required: true
+    environment:
+      - JWT_SECRET=your-super-secret-jwt-token-with-at-least-32-characters-long
+      - SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE
+      - SUPABASE_DB_URL=postgresql://postgres:your-super-secret-and-long-postgres-password@db:5432/postgres
+      - SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q
+      - SUPABASE_URL=http://kong:8000
+      - VERIFY_JWT=false
+    image: supabase/edge-runtime:v1.41.2
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /root/supabase/docker/volumes/functions
+        target: /home/deno/functions
+        bind:
+          selinux: Z
+          create_host_path: true
+    ports: []
+    devices: []
+    cap_add: []
+    networks:
+      - default
+    privileged: false
+    hostname: supabase-edge-functions
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 15868M
+  imgproxy:
+    container_name: supabase-imgproxy
+    environment:
+      - IMGPROXY_BIND=:5001
+      - IMGPROXY_ENABLE_WEBP_DETECTION=true
+      - IMGPROXY_LOCAL_FILESYSTEM_ROOT=/
+      - IMGPROXY_USE_ETAG=true
+    healthcheck:
+      test:
+        - CMD
+        - imgproxy
+        - health
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    image: darthsim/imgproxy:v3.8.0
+    volumes:
+      - type: bind
+        source: /root/supabase/docker/volumes/storage
+        target: /var/lib/storage
+        bind:
+          selinux: z
+          create_host_path: true
+    ports: []
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+    privileged: false
+    restart: unless-stopped
+    hostname: supabase-imgproxy
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 15868M
+  kong:
+    container_name: supabase-kong
+    depends_on:
+      analytics:
+        condition: service_healthy
+        required: true
+    entrypoint:
+      - bash
+      - -c
+      - eval "echo \"$(cat ~/temp.yml)\"" > ~/kong.yml && /docker-entrypoint.sh
+        kong docker-start
+    environment:
+      - DASHBOARD_PASSWORD=this_password_is_insecure_and_should_be_updated
+      - DASHBOARD_USERNAME=supabase
+      - KONG_DATABASE=off
+      - KONG_DECLARATIVE_CONFIG=/home/kong/kong.yml
+      - KONG_DNS_ORDER=LAST,A,CNAME
+      - KONG_NGINX_PROXY_PROXY_BUFFER_SIZE=160k
+      - KONG_NGINX_PROXY_PROXY_BUFFERS=64 160k
+      - KONG_PLUGINS=request-transformer,cors,key-auth,acl,basic-auth
+      - SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE
+      - SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q
+    image: kong:2.8.1
+    ports:
+      - mode: ingress
+        target: 8000
+        published: "8000"
+        protocol: tcp
+      - mode: ingress
+        target: 8443
+        published: "8443"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /root/supabase/docker/volumes/api/kong.yml
+        target: /home/kong/temp.yml
+        read_only: true
+        bind:
+          create_host_path: true
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+    privileged: false
+    hostname: supabase-kong
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 15868M
+  meta:
+    container_name: supabase-meta
+    depends_on:
+      analytics:
+        condition: service_healthy
+        required: true
+      db:
+        condition: service_healthy
+        required: true
+    environment:
+      - PG_META_DB_HOST=db
+      - PG_META_DB_NAME=postgres
+      - PG_META_DB_PASSWORD=your-super-secret-and-long-postgres-password
+      - PG_META_DB_PORT=5432
+      - PG_META_DB_USER=supabase_admin
+      - PG_META_PORT=8080
+    image: supabase/postgres-meta:v0.80.0
+    restart: unless-stopped
+    ports: []
+    volumes: []
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+    privileged: false
+    hostname: supabase-meta
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 15868M
+  realtime:
+    command:
+      - sh
+      - -c
+      - /app/bin/migrate && /app/bin/realtime eval
+        'Realtime.Release.seeds(Realtime.Repo)' && /app/bin/server
+    container_name: realtime-dev.supabase-realtime
+    depends_on:
+      analytics:
+        condition: service_healthy
+        required: true
+      db:
+        condition: service_healthy
+        required: true
+    environment:
+      - API_JWT_SECRET=your-super-secret-jwt-token-with-at-least-32-characters-long
+      - DB_AFTER_CONNECT_QUERY=SET search_path TO _realtime
+      - DB_ENC_KEY=supabaserealtime
+      - DB_HOST=db
+      - DB_NAME=postgres
+      - DB_PASSWORD=your-super-secret-and-long-postgres-password
+      - DB_PORT=5432
+      - DB_USER=supabase_admin
+      - DNS_NODES=''
+      - ENABLE_TAILSCALE=false
+      - ERL_AFLAGS=-proto_dist inet_tcp
+      - FLY_ALLOC_ID=fly123
+      - FLY_APP_NAME=realtime
+      - PORT=4000
+      - SECRET_KEY_BASE=UpNVntn3cDxHJpq99YMc1T1AQgQpc8kfYTuRgBiYa15BLrx8etQoXz3gZv1/u2oq
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - -c
+        - printf \0 > /dev/tcp/localhost/4000
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    image: supabase/realtime:v2.27.5
+    restart: unless-stopped
+    ports: []
+    volumes: []
+    devices: []
+    cap_add: []
+    networks:
+      - default
+    privileged: false
+    hostname: realtime-dev.supabase-realtime
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 15868M
+  rest:
+    command:
+      - postgrest
+    container_name: supabase-rest
+    depends_on:
+      analytics:
+        condition: service_healthy
+        required: true
+      db:
+        condition: service_healthy
+        required: true
+    environment:
+      - PGRST_APP_SETTINGS_JWT_EXP=3600
+      - PGRST_APP_SETTINGS_JWT_SECRET=your-super-secret-jwt-token-with-at-least-32-characters-long
+      - PGRST_DB_ANON_ROLE=anon
+      - PGRST_DB_SCHEMAS=public,storage,graphql_public
+      - PGRST_DB_URI=postgres://authenticator:your-super-secret-and-long-postgres-password@db:5432/postgres
+      - PGRST_DB_USE_LEGACY_GUCS=false
+      - PGRST_JWT_SECRET=your-super-secret-jwt-token-with-at-least-32-characters-long
+    image: postgrest/postgrest:v12.0.1
+    restart: unless-stopped
+    ports: []
+    volumes: []
+    devices: []
+    cap_add: []
+    networks:
+      - default
+    privileged: false
+    hostname: supabase-rest
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 15868M
+  storage:
+    container_name: supabase-storage
+    depends_on:
+      db:
+        condition: service_healthy
+        required: true
+      imgproxy:
+        condition: service_started
+        required: true
+      rest:
+        condition: service_started
+        required: true
+    environment:
+      - ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE
+      - DATABASE_URL=postgres://supabase_storage_admin:your-super-secret-and-long-postgres-password@db:5432/postgres
+      - ENABLE_IMAGE_TRANSFORMATION=true
+      - FILE_SIZE_LIMIT=52428800
+      - FILE_STORAGE_BACKEND_PATH=/var/lib/storage
+      - GLOBAL_S3_BUCKET=stub
+      - IMGPROXY_URL=http://imgproxy:5001
+      - PGRST_JWT_SECRET=your-super-secret-jwt-token-with-at-least-32-characters-long
+      - POSTGREST_URL=http://rest:3000
+      - REGION=stub
+      - SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q
+      - STORAGE_BACKEND=file
+      - TENANT_ID=stub
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - --no-verbose
+        - --tries=1
+        - --spider
+        - http://localhost:5000/status
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    image: supabase/storage-api:v0.46.4
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /root/supabase/docker/volumes/storage
+        target: /var/lib/storage
+        bind:
+          selinux: z
+          create_host_path: true
+    ports: []
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+    privileged: false
+    hostname: supabase-storage
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 15868M
+  studio:
+    container_name: supabase-studio
+    depends_on:
+      analytics:
+        condition: service_healthy
+        required: true
+    environment:
+      - DEFAULT_ORGANIZATION_NAME=Default Organization
+      - DEFAULT_PROJECT_NAME=Default Project
+      - LOGFLARE_API_KEY=your-super-secret-and-long-logflare-key
+      - LOGFLARE_URL=http://analytics:4000
+      - NEXT_ANALYTICS_BACKEND_PROVIDER=postgres
+      - NEXT_PUBLIC_ENABLE_LOGS=true
+      - POSTGRES_PASSWORD=your-super-secret-and-long-postgres-password
+      - STUDIO_PG_META_URL=http://meta:8080
+      - SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE
+      - SUPABASE_PUBLIC_URL=http://localhost:8000
+      - SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q
+      - SUPABASE_URL=http://kong:8000
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - require('http').get('http://localhost:3000/api/profile', (r) => {if
+          (r.statusCode !== 200) throw new Error(r.statusCode)})
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    image: supabase/studio:20240326-5e5586d
+    restart: unless-stopped
+    ports: []
+    volumes: []
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+    privileged: false
+    hostname: supabase-studio
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 15868M
+  vector:
+    command:
+      - --config
+      - etc/vector/vector.yml
+    container_name: supabase-vector
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - --no-verbose
+        - --tries=1
+        - --spider
+        - http://vector:9001/health
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    image: timberio/vector:0.28.1-alpine
+    volumes:
+      - type: bind
+        source: /root/supabase/docker/volumes/logs/vector.yml
+        target: /etc/vector/vector.yml
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: true
+        bind:
+          create_host_path: true
+    ports: []
+    devices: []
+    cap_add: []
+    environment: []
+    networks:
+      - default
+    privileged: false
+    restart: unless-stopped
+    hostname: supabase-vector
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 15868M
+networks:
+  default:
+    name: supabase_default
+volumes:
+  db-config:
+    name: supabase_db-config
+x-casaos:
+  hostname: ""
+  scheme: http
+  index: /
+  port_map: ""
+  author: self
+  category: self
+  icon: ""
+  title:
+    custom: Supabase
