@@ -1,7 +1,6 @@
-name: openwebui
+version: '3'
 services:
   open-webui:
-    container_name: open-webui
     environment:
       - OLLAMA_BASE_URL=http://localhost:11434
     hostname: open-webui
