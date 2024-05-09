@@ -49,6 +49,10 @@ RSS-Bridge is a PHP project capable of generating RSS and Atom feeds for website
 
 OLLAMA is a free, open-source, and easy-to-use AI-powered chatbot that can be used to create conversational AI applications. It is built on top of the OpenAI GPT-3 model and can be used to create chatbots for a wide range of applications, including customer service, marketing, and education. OLLAMA is designed to be easy to use and requires no coding or technical expertise to get started. It is available as a web-based application and can be accessed from any device with an internet connection.
 
+### **11. [OpenWebUi](https://github.com/open-webui/open-webui)** (version: latest)
+
+Open WebUI is an extensible, feature-rich, and user-friendly self-hosted WebUI designed to operate entirely offline. It supports various LLM runners, including Ollama and OpenAI-compatible APIs. Clear and simple interface, with lot of features and settings. It is a great tool for people who want to create and manage conversational AI applications and also custom chatbot models.
+
 ## ✅ Installation
 
 **Custom appstore method**
