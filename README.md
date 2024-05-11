@@ -12,7 +12,7 @@ This custom appstore for CasaOS contains some additional configurations of docke
 
 **Custom install:** [docker-compose.yml](https://raw.githubusercontent.com/eudard/CasaOS-LocalAI-AppStore/master/Apps/ollama/docker-compose.yml)
 
-OLLAMA is a free, open-source, and easy-to-use AI-powered chatbot that can be used to create conversational AI applications. It is built on top of the OpenAI GPT-3 model and can be used to create chatbots for a wide range of applications, including customer service, marketing, and education. OLLAMA is designed to be easy to use and requires no coding or technical expertise to get started. It is available as a web-based application and can be accessed from any device with an internet connection.
+OLLAMA is a free, open-source, and easy-to-use conversational AI platform that allows you to create and manage chatbots and conversational AI applications. It is designed to be user-friendly and extensible, with a simple and intuitive interface that makes it easy to create and manage chatbots. OLLAMA supports various LLM runners, including OpenAI's GPT-3, and provides a range of features and settings to help you create and manage conversational AI applications.
 
 ### **[OpenWebUi](https://github.com/open-webui/open-webui)** (version: latest)
 
