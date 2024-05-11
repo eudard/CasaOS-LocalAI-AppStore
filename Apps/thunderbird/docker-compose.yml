@@ -1,0 +1,18 @@
+version: "3"
+services:
+  thunderbird:
+    image: jlesage/thunderbird:latest
+    ports:
+      - "5800:5800"
+    restart: unless-stopped
+    volumes:
+      - /DATA/AppData/thunderbird:/config:rw
+x-casaos:
+  author: eudard
+  category: "SelfhostAi"
+  icon: "https://avatars.githubusercontent.com/u/15187237?v=4"
+  port_map: "5800"
+  title:
+    en_us: "Mozilla Thunderbird"
+  description:
+    en_us: "Thunderbird is a free email application that’s easy to set up and customize - and it’s loaded with great features!"
