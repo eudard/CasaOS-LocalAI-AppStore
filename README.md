@@ -29,6 +29,7 @@ Serge is a sophisticated web interface designed for chatting with Alpaca through
 ### **[Mimic 3](https://mycroft-ai.gitbook.io/docs/mycroft-technologies/mimic-tts/mimic-3)** (version: 3.0.0)
 
 **Custom install:** [docker-compose.yml](https://raw.githubusercontent.com/eudard/CasaOS-LocalAI-AppStore/master/Apps/microftmimic3/docker-compose.yml)
+
 Mimic is a fast, lightweight Text-to-speech engine developed by Mycroft A.I. and VocaliD, based on Carnegie Mellon University’s FLITE software. Mimic takes in text and reads it out loud to create a high quality voice. Mimic is low-latency and has a small resource footprint. It is great for embedded devices and servers alike. Mimic is also multi-lingual, supporting English, German, Spanish, French, and Italian.
 
 ### **[Thunderbird](https://www.thunderbird.net/)** (version: latest)
