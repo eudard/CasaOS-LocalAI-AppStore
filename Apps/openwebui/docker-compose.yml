@@ -10,7 +10,7 @@ services:
       - "30000:8080"
     restart: always
     volumes:
-      - /AppData/OpenWebUi:/app/backend/data
+      - /DATA/AppData/openwebui:/app/backend/data
 x-casaos:
   architectures:
     - amd64
